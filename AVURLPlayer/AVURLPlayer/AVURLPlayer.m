@@ -509,6 +509,14 @@ static NSString * const kPlayerItem_playbackBufferFull = @"playbackBufferFull";
         return _player.rate == 1;
     }
 }
+- (BOOL)isPause {
+    if ([[UIDevice currentDevice] systemVersion].intValue >= 10) {
+        return _player.timeControlStatus == AVPlayerTimeControlStatusPaused;
+    } else {
+        return _player.rate == 0;
+    }
+}
+
 
 - (void)bufferingSomeSecond {
     __block BOOL isBuffering = NO;

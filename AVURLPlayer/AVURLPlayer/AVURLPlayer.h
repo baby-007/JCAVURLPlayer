@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) AVURLAsset     *urlAsset;
 @property (nonatomic, readonly) AVURLResourceLoader *resourceLoader;
 @property (nonatomic, readonly) BOOL isPlaying;
+@property (nonatomic, readonly) BOOL isPause;
 
 @property (nonatomic, assign) NSUInteger repeatCount;
 @property (nonatomic, assign, readonly) NSUInteger currentRepeatCount;
