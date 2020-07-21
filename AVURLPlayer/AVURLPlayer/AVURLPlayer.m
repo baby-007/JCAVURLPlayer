@@ -433,7 +433,6 @@ static NSString * const kPlayerItem_playbackBufferFull = @"playbackBufferFull";
             _playerItemStatus = AVURLPlayerItemStatusUnknown;
         }
     } else if ([keyPath isEqualToString:kPlayerItem_loadedTimeRanges]) {        // 缓存进度更新
-        //NSLog(@"loadedTimeRanges:%@", playerItem.loadedTimeRanges);
     } else if ([keyPath isEqualToString:kPlayerItem_playbackBufferEmpty]) {     // 缓存是空
         if (playerItem.isPlaybackBufferEmpty) {
             _playerItemStatus = AVURLPlayerItemStatusBuffering;
@@ -447,8 +446,15 @@ static NSString * const kPlayerItem_playbackBufferFull = @"playbackBufferFull";
         if (playerItem.playbackBufferFull) {
             _playerItemStatus = AVURLPlayerItemStatusBufferFull;
         }
-    } else if ([keyPath isEqualToString:kPlayerItem_duration]) {                // 获取到视频时间
-        
+    } else if ([keyPath isEqualToString:kPlayerItem_duration]) {
+        // 获取到视频时间
+        CMTime time = playerItem.duration;
+        uint32_t indefinite = time.flags & kCMTimeFlags_Indefinite;//未知时间
+        uint32_t valid = time.flags & kCMTimeFlags_Valid;//是有有效
+        if (valid != 0 && indefinite == 0) {
+            CGFloat dur = CMTimeGetSeconds(playerItem.duration);
+            [self didGetDuration:dur];
+        }
     } else if ([keyPath isEqualToString:kPlayer_rate]) {                        // player播放状态变化
         if (_player.rate == 0.0) {
             _playerStatus = AVURLPlayerStatusPause;
@@ -465,6 +471,12 @@ static NSString * const kPlayerItem_playbackBufferFull = @"playbackBufferFull";
 
 
 #pragma mark - tool
+
+- (void)didGetDuration:(CGFloat)duration {
+    if ([self.controlView respondsToSelector:@selector(player:didGetDuration:)]) {
+        [self.controlView player:self didGetDuration:duration];
+    }
+}
 
 - (void)hidePlayingStatusView {
     if ([self.controlView respondsToSelector:@selector(player:didUpdatePlayingStatus:)]) {

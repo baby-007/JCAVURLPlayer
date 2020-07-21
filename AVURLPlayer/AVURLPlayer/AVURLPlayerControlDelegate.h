@@ -41,4 +41,5 @@ typedef NS_ENUM(NSInteger, AVURLPlayerItemStatus) {
 - (void)player:(AVURLPlayer *)player didUpdateBuferringStatus:(BOOL)isBuffering;
 - (void)player:(AVURLPlayer *)player didFinishedWithError:(NSError *)error;
 - (void)player:(AVURLPlayer *)player didUpdatePlayTime:(CGFloat)time;
+- (void)player:(AVURLPlayer *)player didGetDuration:(CGFloat)duration;
 @end
