@@ -144,6 +144,10 @@ static NSString * const kPlayerItem_playbackBufferFull = @"playbackBufferFull";
 
 - (void)setupPlayer {
     NSURL *playUrl  = [NSURL URLWithString:self.urlString];
+    if (!playUrl) {
+        NSLog(@"setupPlayer url错误");
+        return;
+    }
     NSString *cachePath = [AVURLCacheHandle cacheFileExistsWithURL:playUrl];
     cachePath = nil;
     if (cachePath.length) {

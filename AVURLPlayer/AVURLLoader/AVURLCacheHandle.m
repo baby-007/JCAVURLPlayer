@@ -122,7 +122,7 @@
 
 + (NSString *)cacheFileExistsWithURL:(NSURL *)URL {
     if (URL.absoluteString.length == 0) {
-        NSAssert(NO, @"参数不能为空");
+        NSLog(@"cacheFileExistsWithURL 参数不能为空");
         return nil;
     }
     NSString *fileName = [URL.absoluteString au_md5];
